@@ -60,6 +60,11 @@ module.exports = yeoman.Base.extend({
       desc: g.f('Set up as a Bluemix app'),
       type: Boolean,
     });
+
+    this.option('appname', {
+      desc: 'App name by flag',
+      type: String,
+    });
   },
 
   help: function() {
@@ -132,6 +137,11 @@ module.exports = yeoman.Base.extend({
   askForProjectName: function() {
     if (this.options.nested && this.name) {
       this.appname = this.name;
+      return;
+    }
+
+    if (this.options.appname) {
+      this.appname = this.options.appname;
       return;
     }
 
