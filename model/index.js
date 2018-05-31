@@ -38,6 +38,31 @@ module.exports = yeoman.Base.extend({
       type: String,
     });
 
+    this.option('datasource', {
+      desc: 'Model datasource',
+      type: String,
+    });
+
+    this.option('basemodeltype', {
+      desc: 'Base model (Model or PersistedModel for now)',
+      type: String,
+    });
+
+    this.option('public', {
+      desc: 'Expose model through API? (true or false)',
+      type: Boolean,
+    });
+
+    this.option('plural', {
+      desc: 'Plural format. For instance, if model is houses, plural format should be houses',
+      type: String,
+    });
+
+    this.option('facetname', {
+      desc: 'Facet name choices: common or server',
+      type: 'String',
+    });
+
     // Prevent "warning: possible EventEmitter memory leak detected"
     // when adding more than 10 properties
     // See https://github.com/strongloop/generator-loopback/issues/99
@@ -105,6 +130,10 @@ module.exports = yeoman.Base.extend({
 
   askForName: function() {
     if (this.abort) return;
+    if (this.name) {
+      this.displayName = chalk.yellow(this.name);
+      return;
+    }
     var prompts = [
       {
         name: 'name',
@@ -122,6 +151,9 @@ module.exports = yeoman.Base.extend({
 
   askForDataSource: function() {
     if (this.abort) return;
+    if (this.options.datasource) {
+      this.dataSource = this.options.datasource;
+    }
     if (!this.hasDatasources) {
       this.dataSource = null;
       return;
@@ -192,6 +224,14 @@ module.exports = yeoman.Base.extend({
   askForParameters: function() {
     if (this.abort) return;
     this.displayName = chalk.yellow(this.name);
+    if (this.options.basemodeltype && this.options.public && this.options.plural 
+      && this.options.facetname) {
+      if (this.options.facetname == 'common' || this.options.facetname == 'server') {
+        this.base = this.options.basemodeltype;
+        this.public = this.options.plural;
+        return;
+      }
+    }
 
     var baseModelChoices = ['Model', 'PersistedModel']
       .concat(this.modelNames)
