@@ -54,7 +54,7 @@ module.exports = yeoman.Base.extend({
     });
 
     this.option('plural', {
-      desc: 'Plural format. For instance, if model is houses, plural format should be houses',
+      desc: 'Plural format',
       type: String,
     });
 
@@ -224,9 +224,10 @@ module.exports = yeoman.Base.extend({
   askForParameters: function() {
     if (this.abort) return;
     this.displayName = chalk.yellow(this.name);
-    if (this.options.basemodeltype && this.options.public && this.options.plural 
-      && this.options.facetname) {
-      if (this.options.facetname == 'common' || this.options.facetname == 'server') {
+    if (this.options.basemodeltype && this.options.public &&
+      this.options.plural && this.options.facetname) {
+      if (this.options.facetname == 'common' ||
+       this.options.facetname == 'server') {
         this.base = this.options.basemodeltype;
         this.public = this.options.plural;
         return;
