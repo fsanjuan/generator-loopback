@@ -153,6 +153,7 @@ module.exports = yeoman.Base.extend({
     if (this.abort) return;
     if (this.options.datasource) {
       this.dataSource = this.options.datasource;
+      return;
     }
     if (!this.hasDatasources) {
       this.dataSource = null;
@@ -228,8 +229,10 @@ module.exports = yeoman.Base.extend({
       this.options.plural && this.options.facetname) {
       if (this.options.facetname == 'common' ||
        this.options.facetname == 'server') {
+        this.facetName = this.options.facetname;
         this.base = this.options.basemodeltype;
-        this.public = this.options.plural;
+        this.public = this.options.public;
+        this.plural = this.options.plural;
         return;
       }
     }
