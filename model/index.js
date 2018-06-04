@@ -63,6 +63,11 @@ module.exports = yeoman.Base.extend({
       type: 'String',
     });
 
+    this.option('skipproperties', {
+      desc: 'Skip properties generation',
+      type: 'String',
+    });
+
     // Prevent "warning: possible EventEmitter memory leak detected"
     // when adding more than 10 properties
     // See https://github.com/strongloop/generator-loopback/issues/99
@@ -353,6 +358,7 @@ module.exports = yeoman.Base.extend({
   },
 
   delim: function() {
+    if (this.options.skipproperties) return;
     if (this.abort) return;
     if (this.base === 'KeyValueModel' || !this.databaseModel)
       return;
@@ -361,6 +367,7 @@ module.exports = yeoman.Base.extend({
   },
 
   property: function() {
+    if (!this.options.skipproperties) return;
     if (this.abort) return;
     if (this.databaseModel) {
       var done = this.async();
