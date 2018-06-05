@@ -72,6 +72,8 @@ module.exports = yeoman.Base.extend({
     }
 
     this.name = this.options.propertyName;
+    this.type = this.options.type;
+    this.required = this.options.required;
 
     var prompts = [
       {
@@ -91,6 +93,9 @@ module.exports = yeoman.Base.extend({
           (Array.isArray(this.propDefinition.type) ?
             'array' : this.propDefinition.type),
         choices: typeChoices,
+        when: function() {
+          return !this.type && this.type !== 0;
+        }.bind(this),
       },
       {
         name: 'customType',
@@ -127,6 +132,9 @@ module.exports = yeoman.Base.extend({
         message: g.f('Required?'),
         type: 'confirm',
         default: false,
+        when: function() {
+          return !this.required && this.required !== 0;
+        }.bind(this),
       },
       {
         name: 'defaultValue',
